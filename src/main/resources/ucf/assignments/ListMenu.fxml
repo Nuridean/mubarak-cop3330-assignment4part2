@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<SplitPane dividerPositions="0.5" orientation="VERTICAL" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.MenuController">
+   <items>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="124.0" prefWidth="600.0">
+         <children>
+            <TextField fx:id="itemReader" layoutX="74.0" layoutY="14.0" onAction="#itemDescription" promptText="Enter item description" />
+            <Button layoutX="362.0" layoutY="14.0" mnemonicParsing="false" onAction="#itemAdd" text="Add new item" />
+            <DatePicker fx:id="dueDateTime" layoutX="224.0" layoutY="14.0" prefHeight="25.0" prefWidth="138.0" />
+            <Button layoutX="452.0" layoutY="14.0" mnemonicParsing="false" onAction="#itemDelete" text="Delete Selected Item" />
+            <CheckBox layoutX="14.0" layoutY="95.0" mnemonicParsing="false" onAction="#displayCompleted" text="Display completed items" />
+            <CheckBox fx:id="displayIncomplete" layoutX="186.0" layoutY="95.0" mnemonicParsing="false" onAction="#displayIncompleted" text="Display Incompleted items" />
+            <Button layoutX="515.0" layoutY="91.0" mnemonicParsing="false" onAction="#saveFile" text="Save to file" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableDisplay" editable="true" prefHeight="200.0" prefWidth="200.0" />
+   </items>
+</SplitPane>

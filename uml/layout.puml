@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class App {
+    main()
+    starter()
+}
+class ListsController {
+
+     -TableView tableDisplay;
+     -TextField itemReader;
+     -DatePicker dueDateTime;
+
+    +itemDescription()
+    +itemDelete()
+    +itemAdd()
+
+
+    +initialize()
+    +displayIncompleted()
+    +displayCompleted()
+    +addItemClicked()
+    +deleteItemClicked()
+    +writeFile()
+
+
+
+
+
+}
+class Item {
+    -String description
+    -String date
+    -boolean complete
+    -Checkbox setComplete
+
+    +Item(String description, String date, boolean complete)
+    +Item()
+}
+javafx.Application <|-- App
+ListsController <-Item
+App - ListsController
+@enduml
