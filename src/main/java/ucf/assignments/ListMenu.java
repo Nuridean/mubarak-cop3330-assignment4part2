@@ -22,6 +22,7 @@ public class ListMenu extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource("ListMenu.fxml"));
 

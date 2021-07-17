@@ -7,19 +7,26 @@ package ucf.assignments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.FileChooser;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MenuController  implements Initializable {
     @FXML
@@ -32,14 +39,28 @@ public class MenuController  implements Initializable {
     private DatePicker dueDateTime;
 
     @FXML
+    private Button saveFile;
+
+    private Desktop desktop = Desktop.getDesktop();
+    final FileChooser fileChooser = new FileChooser();
+    private final ObservableList<Item> list = FXCollections.observableArrayList();
+
+    @FXML
     public void itemDescription(ActionEvent actionEvent) {
         //get item name from user
     }
 
+    @FXML
     public void itemDelete(ActionEvent actionEvent) {
         //deletes the selected item from the list
         deleteItemClicked();
     }
+
+    @FXML
+    public void clearItemList(ActionEvent actionEvent) {
+        deleteListClicked();
+    }
+
 
     @FXML
     public void itemAdd(ActionEvent actionEvent) {
@@ -55,13 +76,21 @@ public class MenuController  implements Initializable {
     }
 
     public void saveFile(ActionEvent actionEvent) {
-        //writeFile(ObservableList<Item> itemObservableList);
+        saveFileClicked();
     }
+
+    public void openFile(ActionEvent actionEvent) {
+        openFileClicked();
+    }
+    
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //manually creating the columns for my tallest
+
+        tableDisplay.setEditable(true);
+        //manually creating the columns
         TableColumn ItemDescription = new TableColumn("Item Description");
         TableColumn ItemDate = new TableColumn("Item Date");
         TableColumn ItemComplete = new TableColumn("Check if done");
@@ -69,10 +98,33 @@ public class MenuController  implements Initializable {
         //assigning the object variables
         tableDisplay.getColumns().addAll(ItemDescription, ItemDate, ItemComplete);
 
-        //assigning parts of the item object to each collumn
+        //assigning parts of the item object to each column
         ItemDescription.setCellValueFactory( new PropertyValueFactory<Item,String>("description"));
+        ItemDescription.setCellFactory(TextFieldTableCell.forTableColumn());
+        ItemDescription.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<Item, String>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<Item, String> t) {
+                        ((Item) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setDescription(t.getNewValue());
+                    }
+                }
+        );
         ItemDate.setCellValueFactory( new PropertyValueFactory<Item,String>("date"));
-        ItemComplete.setCellValueFactory( new PropertyValueFactory<Item,String>("selectComplete"));
+        ItemDate.setCellFactory(TextFieldTableCell.forTableColumn());
+        ItemDate.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<Item, String>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<Item, String> t) {
+                        ((Item) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setDate(t.getNewValue());
+                    }
+                }
+        );
+
+        ItemComplete.setCellFactory( new PropertyValueFactory<Item,String>("selectComplete"));
     }
 
 
@@ -92,14 +144,18 @@ public class MenuController  implements Initializable {
         //get localdate from datepicker
         item.setDate(String.valueOf(dueDateTime.getValue()));
         //defualt value for boolean
-        item.isComplete(false);
         tableDisplay.getItems().add(item);
         itemReader.clear();
         dueDateTime.getEditor().clear();
         dueDateTime.setValue(null);
+
+        list.add(item);
     }
 
     public void deleteItemClicked(){
+        //Make a temp list
+        //define selected item
+        //deleted selected item
         ObservableList<Item> itemSelected, allItems;
         allItems = tableDisplay.getItems();
         itemSelected = tableDisplay.getSelectionModel().getSelectedItems();
@@ -107,22 +163,50 @@ public class MenuController  implements Initializable {
         itemSelected.forEach(allItems::remove);
     }
 
+    private void deleteListClicked() {
+        //Clear the tableview of objects
+        tableDisplay.getItems().clear();
+    }
 
-/* public void writeFile(ObservableList<Item> itemObservableList) {
 
-        try {
-            //writing objects to the file
-            FileOutputStream file = new FileOutputStream("savefile.ser");
-            ObjectOutputStream ofile = new ObjectOutputStream(file);
-            ofile.writeObject(new ArrayList<Item>(itemObservableList));
-            ofile.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
+
+    private void saveFileClicked() {
+        File sfile = fileChooser.showSaveDialog(null);
+        if(sfile != null) {
+            saveFile(tableDisplay.getItems(), sfile);
         }
-} */
+    }
 
+    private void saveFile(ObservableList<Item> Item, File sfile) {
+        //write list to file
+        try {
+            BufferedWriter outWriter = new BufferedWriter(new FileWriter(sfile));
 
+                for(Item task : Item) {
+                outWriter.write(task.toString());
+                outWriter.newLine();
+            }
+            outWriter.close();
+        } catch (IOException e) {
+            }
+        }
+
+    private void openFileClicked() {
+        File file = fileChooser.showOpenDialog(null);
+        if(file != null){
+            openFile(file);
+        }
+    }
+
+    private void openFile(File file) {
+        try{
+            desktop.open(file);
+        } catch (IOException ex) {
+            Logger.getLogger(
+                    MenuController.class.getName()).log(
+                    Level.SEVERE, null, ex
+            );
+        }
+    }
 
 }

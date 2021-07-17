@@ -23,6 +23,12 @@ class ListsController {
     +deleteItemClicked()
     +writeFile()
 
+    -deleteListClicked()
+    -openFileClicked()
+    -openFile()
+    -saveFile()
+    -saveFileClicked()
+
 
 
 
@@ -31,8 +37,8 @@ class ListsController {
 class Item {
     -String description
     -String date
-    -boolean complete
-    -Checkbox setComplete
+    -Booleanproperty complete
+
 
     +Item(String description, String date, boolean complete)
     +Item()

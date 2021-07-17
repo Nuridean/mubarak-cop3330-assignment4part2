@@ -13,12 +13,14 @@
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="124.0" prefWidth="600.0">
          <children>
             <TextField fx:id="itemReader" layoutX="74.0" layoutY="14.0" onAction="#itemDescription" promptText="Enter item description" />
-            <Button layoutX="362.0" layoutY="14.0" mnemonicParsing="false" onAction="#itemAdd" text="Add new item" />
+            <Button layoutX="362.0" layoutY="14.0" mnemonicParsing="false" onAction="#itemAdd" text="Add New item" />
             <DatePicker fx:id="dueDateTime" layoutX="224.0" layoutY="14.0" prefHeight="25.0" prefWidth="138.0" />
-            <Button layoutX="452.0" layoutY="14.0" mnemonicParsing="false" onAction="#itemDelete" text="Delete Selected Item" />
+            <Button layoutX="452.0" layoutY="14.0" mnemonicParsing="false" onAction="#itemDelete" prefHeight="25.0" prefWidth="127.0" text="Delete Selected Item" />
             <CheckBox layoutX="14.0" layoutY="95.0" mnemonicParsing="false" onAction="#displayCompleted" text="Display completed items" />
             <CheckBox fx:id="displayIncomplete" layoutX="186.0" layoutY="95.0" mnemonicParsing="false" onAction="#displayIncompleted" text="Display Incompleted items" />
-            <Button layoutX="515.0" layoutY="91.0" mnemonicParsing="false" onAction="#saveFile" text="Save to file" />
+            <Button fx:id="saveFile" layoutX="525.0" layoutY="91.0" mnemonicParsing="false" onAction="#saveFile" prefHeight="25.0" prefWidth="64.0" text="Save file" />
+            <Button fx:id="openFile" layoutX="524.0" layoutY="62.0" mnemonicParsing="false" onAction="#openFile" text="Open file" />
+            <Button fx:id="clearItemList" layoutX="354.0" layoutY="91.0" mnemonicParsing="false" onAction="#clearItemList" prefHeight="25.0" prefWidth="64.0" text="Clear List" />
          </children>
       </Pane>
       <TableView fx:id="tableDisplay" editable="true" prefHeight="200.0" prefWidth="200.0" />

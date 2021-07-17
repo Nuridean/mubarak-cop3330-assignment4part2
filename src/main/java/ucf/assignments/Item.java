@@ -4,6 +4,7 @@
  */
 package ucf.assignments;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.CheckBox;
 
 import java.io.Serializable;
@@ -14,31 +15,19 @@ public class Item implements Serializable {
 
     private String description;
     private String date;
-    private boolean complete;
-    private CheckBox selectComplete;
+    private BooleanProperty complete;
 
     public Item() {
         this.description = "description";
         this.date = "date";
-        this.complete = false;
-        this.selectComplete = new CheckBox();
     }
 
-    public CheckBox getSelectComplete() {
-        return selectComplete;
-    }
 
-    public void setSelectComplete(CheckBox selectComplete) {
-        this.selectComplete = selectComplete;
-    }
 
     //generated constructor
     public Item(String description, String date, boolean complete) {
         this.description = description;
         this.date = date;
-        this.complete = complete;
-        this.selectComplete = new CheckBox();
-
     }
 
     //generated setters and getters
@@ -56,14 +45,6 @@ public class Item implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public boolean isComplete(boolean b) {
-        return complete;
-    }
-
-    public void setComplete(boolean complete) {
-        this.complete = complete;
     }
 
 
